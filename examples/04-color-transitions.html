@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color Transitions — @skillpet/circuit</title>
+  <style>
+    body { font-family: sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; }
+    h1 { color: #302b63; }
+    .output { border: 1px solid #eee; border-radius: 8px; padding: 20px; margin: 20px 0; text-align: center; }
+  </style>
+</head>
+<body>
+  <h1>Color Transitions</h1>
+  <p>Smooth gradient transitions between differently colored elements.</p>
+  <div class="output" id="output"></div>
+
+  <script src="https://unpkg.com/@skillpet/circuit/dist/circuit.bundle.min.js"></script>
+  <script>
+    document.getElementById("output").innerHTML = Circuit.renderFromJson({
+      drawing: { colorTransition: true },
+      elements: [
+        { type: "SourceV", d: "up", label: "Vs", color: "#2ecc71" },
+        { type: "ResistorIEEE", label: "R1", color: "#e74c3c" },
+        { type: "Capacitor", d: "down", label: "C1", color: "#3498db" },
+        { type: "Line", d: "left", color: "#f39c12" },
+        { type: "Ground", color: "#9b59b6" },
+      ],
+    }, { colorTransition: true });
+  </script>
+</body>
+</html>

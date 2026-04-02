@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>@skillpet/circuit — Examples</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: #f8f9fa;
+      color: #1a1a2e;
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: white;
+      text-align: center;
+      padding: 60px 20px 40px;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    header p {
+      font-size: 1.15rem;
+      opacity: 0.85;
+      max-width: 640px;
+      margin: 0 auto 24px;
+    }
+
+    header .badges a { margin: 0 4px; }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      color: #302b63;
+      border-bottom: 2px solid #e0e0e0;
+      padding-bottom: 8px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      padding: 24px;
+      transition: box-shadow 0.2s;
+    }
+
+    .card:hover {
+      box-shadow: 0 4px 24px rgba(0,0,0,0.14);
+    }
+
+    .card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 16px;
+      color: #302b63;
+    }
+
+    .card .diagram {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 180px;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      background: #fafafa;
+      overflow: hidden;
+    }
+
+    .card .diagram svg {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .toolbar button {
+      padding: 6px 16px;
+      border: 1px solid #d0d0d0;
+      border-radius: 6px;
+      background: white;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.15s;
+    }
+
+    .toolbar button:hover {
+      border-color: #302b63;
+      color: #302b63;
+    }
+
+    .toolbar button.active {
+      background: #302b63;
+      color: white;
+      border-color: #302b63;
+    }
+
+    #interactive-output {
+      min-height: 200px;
+    }
+
+    #event-log {
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 0.8rem;
+      background: #1a1a2e;
+      color: #7fdbca;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 12px;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+
+    footer {
+      text-align: center;
+      padding: 32px 20px;
+      color: #888;
+      font-size: 0.9rem;
+    }
+
+    footer a { color: #302b63; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>@skillpet/circuit</h1>
+    <p>Circuit diagram library — render electrical schematics from JSON, with interactive SVG, themes, and Vue / React components.</p>
+    <div class="badges">
+      <a href="https://www.npmjs.com/package/@skillpet/circuit"><img src="https://img.shields.io/npm/v/@skillpet/circuit.svg" alt="npm"></a>
+      <a href="https://github.com/skillpet/circuit"><img src="https://img.shields.io/github/stars/skillpet/circuit?style=social" alt="GitHub"></a>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <h2>Basic Examples</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>RC Circuit</h3>
+        <div class="diagram" id="rc-circuit"></div>
+      </div>
+      <div class="card">
+        <h3>Battery + LED</h3>
+        <div class="diagram" id="battery-led"></div>
+      </div>
+      <div class="card">
+        <h3>Voltage Divider</h3>
+        <div class="diagram" id="voltage-divider"></div>
+      </div>
+      <div class="card">
+        <h3>Op-Amp Inverting Amplifier</h3>
+        <div class="diagram" id="opamp-inverting"></div>
+      </div>
+    </div>
+
+    <h2>Themes</h2>
+    <div class="card" style="margin-bottom: 48px;">
+      <h3>Same circuit, different themes</h3>
+      <div class="toolbar" id="theme-toolbar">
+        <button class="active" data-theme="light">Light</button>
+        <button data-theme="dark">Dark</button>
+        <button data-theme="print">Print</button>
+      </div>
+      <div class="diagram" id="theme-demo"></div>
+    </div>
+
+    <h2>Interactive Mode</h2>
+    <div class="card" style="margin-bottom: 48px;">
+      <h3>Hover and click on components</h3>
+      <div class="diagram" id="interactive-output"></div>
+      <div id="event-log">Event log:</div>
+    </div>
+
+    <h2>Color Transitions</h2>
+    <div class="card" style="margin-bottom: 48px;">
+      <h3>Smooth gradient between differently colored elements</h3>
+      <div class="diagram" id="color-transition"></div>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>
+      <a href="https://www.npmjs.com/package/@skillpet/circuit">npm</a> &middot;
+      <a href="https://github.com/skillpet/circuit">GitHub</a> &middot;
+      <a href="https://circuit.skill.pet">Docs</a> &middot;
+      &copy; 2026 <a href="https://skill.pet">SkillPet</a>
+    </p>
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

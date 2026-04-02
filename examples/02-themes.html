@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Themes — @skillpet/circuit</title>
+  <style>
+    body { font-family: sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; }
+    h1 { color: #302b63; }
+    .row { display: flex; gap: 16px; flex-wrap: wrap; }
+    .box { flex: 1; min-width: 240px; border: 1px solid #eee; border-radius: 8px; padding: 16px; text-align: center; }
+    .box h3 { margin: 0 0 12px; }
+    .dark { background: #1a1a2e; color: white; }
+  </style>
+</head>
+<body>
+  <h1>Themes</h1>
+  <p>The same circuit rendered with three built-in themes.</p>
+  <div class="row">
+    <div class="box"><h3>Light</h3><div id="light"></div></div>
+    <div class="box dark"><h3>Dark</h3><div id="dark"></div></div>
+    <div class="box"><h3>Print</h3><div id="print"></div></div>
+  </div>
+
+  <script src="https://unpkg.com/@skillpet/circuit/dist/circuit.bundle.min.js"></script>
+  <script>
+    const circuit = {
+      elements: [
+        { type: "SourceV", d: "up", label: "Vs" },
+        { type: "ResistorIEEE", label: "R1" },
+        { type: "Capacitor", d: "down", label: "C1" },
+        { type: "Line", d: "left" },
+        { type: "Ground" },
+      ],
+    };
+
+    document.getElementById("light").innerHTML = Circuit.renderFromJson(circuit, { theme: "light" });
+    document.getElementById("dark").innerHTML   = Circuit.renderFromJson(circuit, { theme: "dark" });
+    document.getElementById("print").innerHTML  = Circuit.renderFromJson(circuit, { theme: "print" });
+  </script>
+</body>
+</html>

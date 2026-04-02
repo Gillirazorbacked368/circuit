@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Basic — @skillpet/circuit</title>
+  <style>
+    body { font-family: sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; }
+    h1 { color: #302b63; }
+    .output { border: 1px solid #eee; border-radius: 8px; padding: 20px; margin: 20px 0; text-align: center; }
+  </style>
+</head>
+<body>
+  <h1>Basic Circuit</h1>
+  <p>A simple RC circuit rendered from JSON using <code>renderFromJson</code>.</p>
+  <div class="output" id="output"></div>
+
+  <script src="https://unpkg.com/@skillpet/circuit/dist/circuit.bundle.min.js"></script>
+  <script>
+    document.getElementById("output").innerHTML = Circuit.renderFromJson({
+      elements: [
+        { type: "SourceV", d: "up", label: "12V" },
+        { type: "ResistorIEEE", label: "R1  10kΩ" },
+        { type: "Capacitor", d: "down", label: "C1  100nF" },
+        { type: "Line", d: "left" },
+        { type: "Ground" },
+      ],
+    });
+  </script>
+</body>
+</html>

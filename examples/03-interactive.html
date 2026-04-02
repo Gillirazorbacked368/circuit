@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive — @skillpet/circuit</title>
+  <style>
+    body { font-family: sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; }
+    h1 { color: #302b63; }
+    .output { border: 1px solid #eee; border-radius: 8px; padding: 20px; margin: 20px 0; text-align: center; }
+    #log {
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 13px;
+      background: #1a1a2e;
+      color: #7fdbca;
+      padding: 12px;
+      border-radius: 8px;
+      max-height: 200px;
+      overflow-y: auto;
+      white-space: pre;
+    }
+  </style>
+</head>
+<body>
+  <h1>Interactive Mode</h1>
+  <p>Hover and click on components. Events are logged below.</p>
+  <div class="output" id="output"></div>
+  <div id="log">Events:</div>
+
+  <script src="https://unpkg.com/@skillpet/circuit/dist/circuit.bundle.min.js"></script>
+  <script>
+    const log = document.getElementById("log");
+
+    const ctrl = Circuit.mountFromJson(document.getElementById("output"), {
+      elements: [
+        { type: "SourceV", d: "up", label: "12V", id: "V1", tooltip: "DC Voltage Source, 12V" },
+        { type: "ResistorIEEE", label: "R1  10kΩ", id: "R1", tooltip: "Resistor, 10kΩ ± 5%" },
+        { type: "Capacitor", d: "down", label: "C1  100nF", id: "C1", tooltip: "Ceramic Capacitor, 100nF" },
+        { type: "Line", d: "left", id: "W1" },
+        { type: "Ground", id: "GND" },
+      ],
+    }, { interactive: true });
+
+    ctrl.on("element:click", (info) => {
+      log.textContent += "\nclick  → " + (info.id || info.type);
+      log.scrollTop = log.scrollHeight;
+    });
+
+    ctrl.on("element:hover", (info) => {
+      log.textContent += "\nhover  → " + (info.id || info.type) + "  " + (info.tooltip || "");
+      log.scrollTop = log.scrollHeight;
+    });
+  </script>
+</body>
+</html>
