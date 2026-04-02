@@ -7,8 +7,6 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@skillpet/circuit"><img src="https://img.shields.io/npm/v/@skillpet/circuit.svg" alt="npm version"></a>
-  <a href="https://www.npmjs.com/package/@skillpet/circuit"><img src="https://img.shields.io/npm/l/@skillpet/circuit.svg" alt="license"></a>
   <a href="https://circuit.skill.pet"><img src="https://img.shields.io/badge/docs-circuit.skill.pet-blue" alt="docs"></a>
 </p>
 
@@ -23,45 +21,25 @@
 - 인터랙티브 SVG: 호버 하이라이트, 툴팁, 클릭 이벤트
 - 3가지 내장 테마 (라이트, 다크, 인쇄) + 커스텀 테마
 - 부품 간 부드러운 색상 전환
-- Vue 3 & React 컴포넌트 기본 제공
-- 브라우저 번들 (script 태그) & ESM / CJS 지원
+- Vue 3 & React 컴포넌트
+- CDN을 통한 브라우저 번들
 - KaTeX 수학 레이블 렌더링
 - 순서도, DSP 블록, 브레드보드 부품
-- 런타임 의존성 없음 (KaTeX는 선택사항)
-
-## 설치
-
-```bash
-npm install @skillpet/circuit
-```
 
 ## 빠른 시작
 
-### ESM / TypeScript
-
-```ts
-import { renderFromJson } from "@skillpet/circuit";
-
-const svg = renderFromJson({
-  elements: [
-    { type: "SourceV", d: "up", label: "12V" },
-    { type: "ResistorIEEE", label: "R1 10kΩ" },
-    { type: "Capacitor", d: "down", label: "C1 100nF" },
-    { type: "Line", d: "left" },
-    { type: "Ground" },
-  ],
-});
-```
-
-### 브라우저 (Script 태그)
+script 태그 하나만 추가하면 바로 그릴 수 있습니다:
 
 ```html
 <script src="https://unpkg.com/@skillpet/circuit/dist/circuit.bundle.min.js"></script>
 <script>
   const svg = Circuit.renderFromJson({
     elements: [
-      { type: "ResistorIEEE", label: "R1" },
-      { type: "Capacitor", d: "down", label: "C1" },
+      { type: "SourceV", d: "up", label: "12V" },
+      { type: "ResistorIEEE", label: "R1 10kΩ" },
+      { type: "Capacitor", d: "down", label: "C1 100nF" },
+      { type: "Line", d: "left" },
+      { type: "Ground" },
     ],
   });
   document.getElementById("output").innerHTML = svg;
@@ -70,25 +48,17 @@ const svg = renderFromJson({
 
 ## 예제
 
-이 리포지토리에는 실행 가능한 예제가 포함되어 있습니다:
+이 리포지토리에는 브라우저에서 바로 열 수 있는 HTML 예제가 포함되어 있습니다:
 
 | 파일 | 설명 |
 |------|------|
-| [`examples/01-basic.html`](examples/01-basic.html) | CDN 스크립트 태그로 렌더링하는 최소 회로 |
+| [`index.html`](index.html) | 전체 데모: 기본 회로, 테마, 인터랙티브, 색상 전환 |
+| [`examples/01-basic.html`](examples/01-basic.html) | 최소 RC 회로 |
 | [`examples/02-themes.html`](examples/02-themes.html) | 라이트 / 다크 / 인쇄 테마 비교 |
 | [`examples/03-interactive.html`](examples/03-interactive.html) | 인터랙티브 모드와 이벤트 로깅 |
 | [`examples/04-color-transitions.html`](examples/04-color-transitions.html) | 부품 간 부드러운 색상 그라데이션 |
-| [`examples/05-esm-node.mjs`](examples/05-esm-node.mjs) | Node.js 서버 사이드 렌더링 |
-| [`index.html`](index.html) + [`src/main.js`](src/main.js) | Vite 기반 전체 데모 |
 
-로컬에서 Vite 데모 실행:
-
-```bash
-git clone https://github.com/skillpet/circuit.git
-cd circuit
-npm install
-npm run dev
-```
+모든 예제는 [unpkg](https://unpkg.com/@skillpet/circuit/) CDN에서 라이브러리를 로드합니다 — 빌드 필요 없음.
 
 ## 라이선스
 

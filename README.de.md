@@ -7,8 +7,6 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@skillpet/circuit"><img src="https://img.shields.io/npm/v/@skillpet/circuit.svg" alt="npm version"></a>
-  <a href="https://www.npmjs.com/package/@skillpet/circuit"><img src="https://img.shields.io/npm/l/@skillpet/circuit.svg" alt="license"></a>
   <a href="https://circuit.skill.pet"><img src="https://img.shields.io/badge/docs-circuit.skill.pet-blue" alt="docs"></a>
 </p>
 
@@ -23,45 +21,25 @@
 - Interaktives SVG: Hover-Hervorhebung, Tooltips, Klick-Events
 - 3 integrierte Themes (Hell, Dunkel, Druck) + benutzerdefinierte Themes
 - Sanfte Farbübergänge zwischen Elementen
-- Vue 3 & React-Komponenten sofort einsatzbereit
-- Browser-Bundle (Script-Tag) & ESM / CJS-Unterstützung
+- Vue 3 & React-Komponenten
+- Browser-Bundle via CDN
 - KaTeX-Mathematik-Label-Rendering
 - Flussdiagramme, DSP-Blöcke, Breadboard-Bauteile
-- Keine Laufzeit-Abhängigkeiten (KaTeX ist optional)
-
-## Installation
-
-```bash
-npm install @skillpet/circuit
-```
 
 ## Schnellstart
 
-### ESM / TypeScript
-
-```ts
-import { renderFromJson } from "@skillpet/circuit";
-
-const svg = renderFromJson({
-  elements: [
-    { type: "SourceV", d: "up", label: "12V" },
-    { type: "ResistorIEEE", label: "R1 10kΩ" },
-    { type: "Capacitor", d: "down", label: "C1 100nF" },
-    { type: "Line", d: "left" },
-    { type: "Ground" },
-  ],
-});
-```
-
-### Browser (Script-Tag)
+Fügen Sie ein Script-Tag hinzu und beginnen Sie mit dem Zeichnen:
 
 ```html
 <script src="https://unpkg.com/@skillpet/circuit/dist/circuit.bundle.min.js"></script>
 <script>
   const svg = Circuit.renderFromJson({
     elements: [
-      { type: "ResistorIEEE", label: "R1" },
-      { type: "Capacitor", d: "down", label: "C1" },
+      { type: "SourceV", d: "up", label: "12V" },
+      { type: "ResistorIEEE", label: "R1 10kΩ" },
+      { type: "Capacitor", d: "down", label: "C1 100nF" },
+      { type: "Line", d: "left" },
+      { type: "Ground" },
     ],
   });
   document.getElementById("output").innerHTML = svg;
@@ -70,25 +48,17 @@ const svg = renderFromJson({
 
 ## Beispiele
 
-Dieses Repository enthält ausführbare Beispiele:
+Dieses Repository enthält HTML-Beispiele, die direkt im Browser geöffnet werden können:
 
 | Datei | Beschreibung |
 |-------|-------------|
-| [`examples/01-basic.html`](examples/01-basic.html) | Minimale Schaltung via CDN |
+| [`index.html`](index.html) | Vollständige Demo: Schaltungen, Themes, Interaktiv, Farbübergänge |
+| [`examples/01-basic.html`](examples/01-basic.html) | Minimale RC-Schaltung |
 | [`examples/02-themes.html`](examples/02-themes.html) | Hell / Dunkel / Druck-Theme Vergleich |
 | [`examples/03-interactive.html`](examples/03-interactive.html) | Interaktiver Modus mit Event-Logging |
 | [`examples/04-color-transitions.html`](examples/04-color-transitions.html) | Sanfter Farbgradient zwischen Elementen |
-| [`examples/05-esm-node.mjs`](examples/05-esm-node.mjs) | Serverseitiges Rendering mit Node.js |
-| [`index.html`](index.html) + [`src/main.js`](src/main.js) | Vollständige Vite-basierte Demo |
 
-Lokal ausführen:
-
-```bash
-git clone https://github.com/skillpet/circuit.git
-cd circuit
-npm install
-npm run dev
-```
+Alle Beispiele laden die Bibliothek vom [unpkg](https://unpkg.com/@skillpet/circuit/) CDN — kein Build-Schritt erforderlich.
 
 ## Lizenz
 

@@ -7,8 +7,6 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@skillpet/circuit"><img src="https://img.shields.io/npm/v/@skillpet/circuit.svg" alt="npm version"></a>
-  <a href="https://www.npmjs.com/package/@skillpet/circuit"><img src="https://img.shields.io/npm/l/@skillpet/circuit.svg" alt="license"></a>
   <a href="https://circuit.skill.pet"><img src="https://img.shields.io/badge/docs-circuit.skill.pet-blue" alt="docs"></a>
 </p>
 
@@ -23,45 +21,25 @@
 - インタラクティブ SVG：ホバーハイライト、ツールチップ、クリックイベント
 - 3 つの内蔵テーマ（ライト、ダーク、印刷）＋カスタムテーマ
 - 要素間のスムーズなカラートランジション
-- Vue 3 & React コンポーネントをすぐに利用可能
-- ブラウザバンドル（script タグ）& ESM / CJS サポート
+- Vue 3 & React コンポーネント
+- CDN 経由のブラウザバンドル
 - KaTeX 数式ラベルレンダリング
 - フローチャート、DSP ブロック、ブレッドボード部品
-- ランタイム依存なし（KaTeX はオプション）
-
-## インストール
-
-```bash
-npm install @skillpet/circuit
-```
 
 ## クイックスタート
 
-### ESM / TypeScript
-
-```ts
-import { renderFromJson } from "@skillpet/circuit";
-
-const svg = renderFromJson({
-  elements: [
-    { type: "SourceV", d: "up", label: "12V" },
-    { type: "ResistorIEEE", label: "R1 10kΩ" },
-    { type: "Capacitor", d: "down", label: "C1 100nF" },
-    { type: "Line", d: "left" },
-    { type: "Ground" },
-  ],
-});
-```
-
-### ブラウザ（Script タグ）
+script タグを一つ追加するだけで描画開始：
 
 ```html
 <script src="https://unpkg.com/@skillpet/circuit/dist/circuit.bundle.min.js"></script>
 <script>
   const svg = Circuit.renderFromJson({
     elements: [
-      { type: "ResistorIEEE", label: "R1" },
-      { type: "Capacitor", d: "down", label: "C1" },
+      { type: "SourceV", d: "up", label: "12V" },
+      { type: "ResistorIEEE", label: "R1 10kΩ" },
+      { type: "Capacitor", d: "down", label: "C1 100nF" },
+      { type: "Line", d: "left" },
+      { type: "Ground" },
     ],
   });
   document.getElementById("output").innerHTML = svg;
@@ -70,25 +48,17 @@ const svg = renderFromJson({
 
 ## サンプル
 
-このリポジトリには実行可能なサンプルが含まれています：
+このリポジトリにはブラウザで直接開ける HTML サンプルが含まれています：
 
 | ファイル | 説明 |
 |----------|------|
-| [`examples/01-basic.html`](examples/01-basic.html) | CDN スクリプトタグによる最小回路 |
+| [`index.html`](index.html) | フルデモ：基本回路、テーマ、インタラクティブ、カラートランジション |
+| [`examples/01-basic.html`](examples/01-basic.html) | 最小 RC 回路 |
 | [`examples/02-themes.html`](examples/02-themes.html) | ライト / ダーク / 印刷テーマ比較 |
 | [`examples/03-interactive.html`](examples/03-interactive.html) | インタラクティブモードとイベントログ |
 | [`examples/04-color-transitions.html`](examples/04-color-transitions.html) | 要素間のスムーズなカラーグラデーション |
-| [`examples/05-esm-node.mjs`](examples/05-esm-node.mjs) | Node.js サーバーサイドレンダリング |
-| [`index.html`](index.html) + [`src/main.js`](src/main.js) | Vite ベースの完全なデモ |
 
-ローカルで Vite デモを実行：
-
-```bash
-git clone https://github.com/skillpet/circuit.git
-cd circuit
-npm install
-npm run dev
-```
+すべてのサンプルは [unpkg](https://unpkg.com/@skillpet/circuit/) CDN からライブラリを読み込みます — ビルド不要。
 
 ## ライセンス
 

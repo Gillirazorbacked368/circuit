@@ -7,8 +7,6 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@skillpet/circuit"><img src="https://img.shields.io/npm/v/@skillpet/circuit.svg" alt="npm version"></a>
-  <a href="https://www.npmjs.com/package/@skillpet/circuit"><img src="https://img.shields.io/npm/l/@skillpet/circuit.svg" alt="license"></a>
   <a href="https://circuit.skill.pet"><img src="https://img.shields.io/badge/docs-circuit.skill.pet-blue" alt="docs"></a>
 </p>
 
@@ -23,45 +21,25 @@
 - 交互式 SVG：悬停高亮、工具提示、点击事件
 - 3 种内置主题（浅色、深色、打印）+ 自定义主题
 - 元件间平滑的颜色过渡
-- 开箱即用的 Vue 3 与 React 组件
-- 浏览器 Bundle（script 标签）与 ESM / CJS 支持
+- Vue 3 与 React 组件
+- 通过 CDN 加载浏览器 Bundle
 - KaTeX 数学公式标签渲染
 - 流程图、DSP 模块、实物面包板元件
-- 零运行时依赖（KaTeX 为可选）
-
-## 安装
-
-```bash
-npm install @skillpet/circuit
-```
 
 ## 快速上手
 
-### ESM / TypeScript
-
-```ts
-import { renderFromJson } from "@skillpet/circuit";
-
-const svg = renderFromJson({
-  elements: [
-    { type: "SourceV", d: "up", label: "12V" },
-    { type: "ResistorIEEE", label: "R1 10kΩ" },
-    { type: "Capacitor", d: "down", label: "C1 100nF" },
-    { type: "Line", d: "left" },
-    { type: "Ground" },
-  ],
-});
-```
-
-### 浏览器（Script 标签）
+添加一个 script 标签即可开始绘图：
 
 ```html
 <script src="https://unpkg.com/@skillpet/circuit/dist/circuit.bundle.min.js"></script>
 <script>
   const svg = Circuit.renderFromJson({
     elements: [
-      { type: "ResistorIEEE", label: "R1" },
-      { type: "Capacitor", d: "down", label: "C1" },
+      { type: "SourceV", d: "up", label: "12V" },
+      { type: "ResistorIEEE", label: "R1 10kΩ" },
+      { type: "Capacitor", d: "down", label: "C1 100nF" },
+      { type: "Line", d: "left" },
+      { type: "Ground" },
     ],
   });
   document.getElementById("output").innerHTML = svg;
@@ -70,78 +48,59 @@ const svg = renderFromJson({
 
 ### 交互模式
 
-```ts
-import { mountFromJson } from "@skillpet/circuit";
+挂载到 DOM，支持悬停高亮、工具提示和点击事件：
 
-const ctrl = mountFromJson(document.getElementById("container"), {
-  elements: [
-    { type: "ResistorIEEE", id: "R1", tooltip: "100kΩ 碳膜电阻" },
-    { type: "Capacitor", d: "down", id: "C1", tooltip: "0.1μF 瓷片电容" },
-  ],
-}, { interactive: true });
+```html
+<div id="container"></div>
+<script src="https://unpkg.com/@skillpet/circuit/dist/circuit.bundle.min.js"></script>
+<script>
+  const ctrl = Circuit.mountFromJson(document.getElementById("container"), {
+    elements: [
+      { type: "ResistorIEEE", id: "R1", tooltip: "100kΩ 碳膜电阻" },
+      { type: "Capacitor", d: "down", id: "C1", tooltip: "0.1μF 瓷片电容" },
+    ],
+  }, { interactive: true });
 
-ctrl.on("element:click", (info) => console.log("点击:", info.id));
-ctrl.on("element:hover", (info) => console.log("悬停:", info.tooltip));
-```
-
-### Vue 3
-
-```vue
-<script setup>
-import { CircuitDiagram } from "@skillpet/circuit/vue";
-
-const circuit = {
-  elements: [
-    { type: "ResistorIEEE", label: "R1", id: "R1", tooltip: "100kΩ" },
-    { type: "Capacitor", d: "down", label: "C1" },
-  ],
-};
+  ctrl.on("element:click", (info) => console.log("点击:", info.id));
+  ctrl.on("element:hover", (info) => console.log("悬停:", info.tooltip));
 </script>
-
-<template>
-  <CircuitDiagram :circuit="circuit" interactive @element-click="console.log" />
-</template>
-```
-
-### React
-
-```tsx
-import { CircuitDiagram } from "@skillpet/circuit/react";
-
-function App() {
-  return (
-    <CircuitDiagram
-      circuit={{ elements: [{ type: "ResistorIEEE", label: "R1" }] }}
-      interactive
-      onElementClick={(info) => console.log(info)}
-    />
-  );
-}
 ```
 
 ## 示例
 
-本仓库包含可运行的示例：
+本仓库包含可直接在浏览器中打开的 HTML 示例：
 
 | 文件 | 说明 |
 |------|------|
-| [`examples/01-basic.html`](examples/01-basic.html) | 最简电路，通过 CDN 脚本标签渲染 |
+| [`index.html`](index.html) | 完整演示页面：基础电路、主题切换、交互模式、颜色过渡 |
+| [`examples/01-basic.html`](examples/01-basic.html) | 最简 RC 电路 |
 | [`examples/02-themes.html`](examples/02-themes.html) | 浅色 / 深色 / 打印主题对比 |
 | [`examples/03-interactive.html`](examples/03-interactive.html) | 交互模式与事件日志 |
 | [`examples/04-color-transitions.html`](examples/04-color-transitions.html) | 元件间平滑颜色渐变 |
-| [`examples/05-esm-node.mjs`](examples/05-esm-node.mjs) | Node.js 服务端渲染 |
-| [`index.html`](index.html) + [`src/main.js`](src/main.js) | 基于 Vite 的完整演示 |
 
-本地运行 Vite 演示：
+所有示例通过 [unpkg](https://unpkg.com/@skillpet/circuit/) CDN 加载库 — 无需任何构建步骤。
 
-```bash
-git clone https://github.com/skillpet/circuit.git
-cd circuit
-npm install
-npm run dev
+## 主题
+
+三种内置主题：`light`（默认）、`dark` 和 `print`。
+
+```js
+const svg = Circuit.renderFromJson(circuit, { theme: "dark" });
 ```
 
-独立 HTML 示例可直接用浏览器打开 — 它们通过 unpkg CDN 加载库。
+## 颜色过渡
+
+不同颜色元件之间平滑的渐变过渡：
+
+```js
+const svg = Circuit.renderFromJson({
+  drawing: { colorTransition: true },
+  elements: [
+    { type: "SourceV", d: "up", color: "#2ecc71" },
+    { type: "ResistorIEEE", color: "#e74c3c" },
+  ],
+}, { colorTransition: true });
+```
 
 ## 许可证
 

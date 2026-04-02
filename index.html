@@ -21,11 +21,7 @@
       padding: 60px 20px 40px;
     }
 
-    header h1 {
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin-bottom: 12px;
-    }
+    header h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 12px; }
 
     header p {
       font-size: 1.15rem;
@@ -36,11 +32,7 @@
 
     header .badges a { margin: 0 4px; }
 
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 40px 20px;
-    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
 
     h2 {
       font-size: 1.5rem;
@@ -65,15 +57,9 @@
       transition: box-shadow 0.2s;
     }
 
-    .card:hover {
-      box-shadow: 0 4px 24px rgba(0,0,0,0.14);
-    }
+    .card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.14); }
 
-    .card h3 {
-      font-size: 1.1rem;
-      margin-bottom: 16px;
-      color: #302b63;
-    }
+    .card h3 { font-size: 1.1rem; margin-bottom: 16px; color: #302b63; }
 
     .card .diagram {
       display: flex;
@@ -86,10 +72,7 @@
       overflow: hidden;
     }
 
-    .card .diagram svg {
-      max-width: 100%;
-      height: auto;
-    }
+    .card .diagram svg { max-width: 100%; height: auto; }
 
     .toolbar {
       display: flex;
@@ -108,19 +91,12 @@
       transition: all 0.15s;
     }
 
-    .toolbar button:hover {
-      border-color: #302b63;
-      color: #302b63;
-    }
+    .toolbar button:hover { border-color: #302b63; color: #302b63; }
 
     .toolbar button.active {
       background: #302b63;
       color: white;
       border-color: #302b63;
-    }
-
-    #interactive-output {
-      min-height: 200px;
     }
 
     #event-log {
@@ -205,13 +181,118 @@
 
   <footer>
     <p>
-      <a href="https://www.npmjs.com/package/@skillpet/circuit">npm</a> &middot;
       <a href="https://github.com/skillpet/circuit">GitHub</a> &middot;
       <a href="https://circuit.skill.pet">Docs</a> &middot;
       &copy; 2026 <a href="https://skill.pet">SkillPet</a>
     </p>
   </footer>
 
-  <script type="module" src="/src/main.js"></script>
+  <script src="https://unpkg.com/@skillpet/circuit/dist/circuit.bundle.min.js"></script>
+  <script>
+    // ── 1. RC Circuit ────────────────────────────────────────────
+    document.getElementById("rc-circuit").innerHTML = Circuit.renderFromJson({
+      elements: [
+        { type: "SourceV", d: "up", label: "12V" },
+        { type: "ResistorIEEE", label: "R1  10kΩ" },
+        { type: "Capacitor", d: "down", label: "C1  100nF" },
+        { type: "Line", d: "left" },
+        { type: "Ground" },
+      ],
+    });
+
+    // ── 2. Battery + LED ─────────────────────────────────────────
+    document.getElementById("battery-led").innerHTML = Circuit.renderFromJson({
+      elements: [
+        { type: "Battery", label: "3V" },
+        { type: "ResistorIEEE", label: "220Ω" },
+        { type: "LED" },
+        { type: "Line", d: "left", l: 1.5 },
+        { type: "Line", d: "down", l: 1.5 },
+        { type: "Line", d: "right", l: 1.5 },
+      ],
+    });
+
+    // ── 3. Voltage Divider ───────────────────────────────────────
+    document.getElementById("voltage-divider").innerHTML = Circuit.renderFromJson({
+      elements: [
+        { type: "SourceV", d: "up", label: "Vin" },
+        { type: "ResistorIEEE", label: "R1" },
+        { type: "Dot" },
+        { type: "ResistorIEEE", d: "down", label: "R2" },
+        { type: "Ground" },
+        { type: "Line", d: "left" },
+      ],
+    });
+
+    // ── 4. Op-Amp ────────────────────────────────────────────────
+    document.getElementById("opamp-inverting").innerHTML = Circuit.renderFromJson({
+      elements: [
+        { type: "Opamp", anchor: "in1" },
+        { type: "ResistorIEEE", at: "in1", d: "left", flip: true, label: "Ri" },
+      ],
+    });
+
+    // ── 5. Themes ────────────────────────────────────────────────
+    var themeCircuit = {
+      elements: [
+        { type: "SourceV", d: "up", label: "Vs" },
+        { type: "ResistorIEEE", label: "R1" },
+        { type: "Capacitor", d: "down", label: "C1" },
+        { type: "Line", d: "left" },
+        { type: "Ground" },
+      ],
+    };
+
+    function renderTheme(theme) {
+      document.getElementById("theme-demo").innerHTML =
+        Circuit.renderFromJson(themeCircuit, { theme: theme });
+      document.getElementById("theme-demo").style.background =
+        theme === "dark" ? "#1a1a2e" : "#fafafa";
+    }
+
+    renderTheme("light");
+
+    document.querySelectorAll("#theme-toolbar button").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        document.querySelectorAll("#theme-toolbar button").forEach(function (b) {
+          b.classList.remove("active");
+        });
+        btn.classList.add("active");
+        renderTheme(btn.dataset.theme);
+      });
+    });
+
+    // ── 6. Interactive Mode ──────────────────────────────────────
+    var log = document.getElementById("event-log");
+    function appendLog(msg) {
+      log.textContent += "\n" + msg;
+      log.scrollTop = log.scrollHeight;
+    }
+
+    var ctrl = Circuit.mountFromJson(document.getElementById("interactive-output"), {
+      elements: [
+        { type: "SourceV", d: "up", label: "12V", id: "V1", tooltip: "DC Voltage Source, 12V" },
+        { type: "ResistorIEEE", label: "R1  10kΩ", id: "R1", tooltip: "Resistor, 10kΩ ± 5%" },
+        { type: "Capacitor", d: "down", label: "C1  100nF", id: "C1", tooltip: "Ceramic Capacitor, 100nF" },
+        { type: "Line", d: "left", id: "W1" },
+        { type: "Ground", id: "GND" },
+      ],
+    }, { interactive: true });
+
+    ctrl.on("element:click", function (info) { appendLog("click  → " + (info.id || info.type)); });
+    ctrl.on("element:hover", function (info) { appendLog("hover  → " + (info.id || info.type) + "  " + (info.tooltip || "")); });
+
+    // ── 7. Color Transitions ─────────────────────────────────────
+    document.getElementById("color-transition").innerHTML = Circuit.renderFromJson({
+      drawing: { colorTransition: true },
+      elements: [
+        { type: "SourceV", d: "up", label: "Vs", color: "#2ecc71" },
+        { type: "ResistorIEEE", label: "R1", color: "#e74c3c" },
+        { type: "Capacitor", d: "down", label: "C1", color: "#3498db" },
+        { type: "Line", d: "left", color: "#f39c12" },
+        { type: "Ground", color: "#9b59b6" },
+      ],
+    }, { colorTransition: true });
+  </script>
 </body>
 </html>
